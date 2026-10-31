@@ -15,7 +15,7 @@ type Status string
 
 const (
 	StatusTodo       Status = "todo"
-	StatusInProgress Status = "in_progress"
+	StatusInProgress Status = "in-progress"
 	StatusDone       Status = "done"
 )
 
@@ -28,6 +28,34 @@ type Todo struct {
 }
 
 var tbl = table.New("ID", "Title", "Status", "CreatedAt", "UpdatedAt")
+
+func Mark(status Status, id string) {
+	b, err := os.ReadFile("data.json")
+	if err != nil {
+		fmt.Println("erro ao abrir aquivo: ", err)
+	}
+
+	var Tasks []Todo
+	if err := json.Unmarshal(b, &Tasks); err != nil {
+		fmt.Println("Erro ao desserializar json: ", err)
+	}
+
+	TaskIdx := -1
+
+	for i, todo := range Tasks {
+		if todo.ID == id {
+			TaskIdx = i
+		}
+	}
+
+	if TaskIdx == -1 {
+		fmt.Println("Tarefa nao encontrada!")
+	}
+
+	Tasks[TaskIdx].Status = status
+
+	save(Tasks)
+}
 
 func Start() {
 	filename := "data.json"
@@ -48,6 +76,26 @@ func Start() {
 	// Sem isso, o json.Unmarshal da próxima função vai quebrar com arquivo em branco
 	_, _ = file.WriteString("[]")
 	fmt.Printf("Arquivo '%s' inicializado com sucesso!\n", filename)
+}
+
+func ListFilter(filter Status) {
+	b, err := os.ReadFile("data.json")
+	if err != nil {
+		fmt.Println("erro ao abrir aquivo: ", err)
+	}
+
+	var Tasks []Todo
+	if err := json.Unmarshal(b, &Tasks); err != nil {
+		fmt.Println("Erro ao desserializar json: ", err)
+	}
+
+	for _, todo := range Tasks {
+		if todo.Status == filter {
+			tbl.AddRow(todo.ID, todo.Title, todo.Status, todo.CreatedAt, todo.UpdatedAt)
+		}
+	}
+
+	tbl.Print()
 }
 
 func List() {
@@ -104,6 +152,8 @@ func Add(title string) error {
 	if err := os.WriteFile("data.json", jsonDados, 0o644); err != nil {
 		return fmt.Errorf("erro ao gravar arquivo: %w", err)
 	}
+
+	fmt.Println("Tarefa criada com sucesso!")
 
 	return nil
 }
