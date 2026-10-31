@@ -1,23 +1,16 @@
 [
-  {
-    "id": "1",
-    "title": "estudar go",
-    "complet": true,
-    "created_at": "2026-10-26T21:38:00+01:00",
-    "completed_at": "2026-10-26T22:57:07+01:00"
-  },
-  {
-    "id": "3",
-    "title": "Arrumar projecto",
-    "complet": false,
-    "created_at": "2026-10-26T22:52:18+01:00",
-    "completed_at": ""
-  },
-  {
-    "id": "4",
-    "title": "Arrumar mais funcoes",
-    "complet": false,
-    "created_at": "2026-10-27T02:06:50+01:00",
-    "completed_at": ""
-  }
+    {
+        "id": "1",
+        "title": "comer",
+        "status": "todo",
+        "created_at": "2026-10-31T14:55:05.305927348+01:00",
+        "updated_at": "2026-10-31T14:55:05.305927461+01:00"
+    },
+    {
+        "id": "2",
+        "title": "comer",
+        "status": "todo",
+        "created_at": "2026-10-31T14:55:47.876322936+01:00",
+        "updated_at": "2026-10-31T14:55:47.876323015+01:00"
+    }
 ]
